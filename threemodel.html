@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predict Concentration</title>
+</head>
+<body>
+    <h1>Predict Concentration</h1>
+    <form id="prediction_form" action="/predict" method="post">
+        <label for="model">Choose a model:</label>
+        <select id="model" name="model">
+            <option value="ca">CA Model</option>
+            <option value="hb">HB Model</option>
+            <option value="gl">GL Model</option>
+        </select><br><br>
+        <label for="input_value">Enter the input value (comma-separated):</label>
+        <input type="text" id="input_value" name="input_value"><br><br>
+        <input type="button" value="Predict" onclick="predict()">
+    </form>
+
+    <div id="prediction_results"></div>
+
+    <script>
+        function predict() {
+            var form = document.getElementById("prediction_form");
+            var formData = new FormData(form);
+
+            fetch("/predict", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("prediction_results").innerHTML = data;
+            });
+        }
+    </script>
+</body>
+</html>
